@@ -34,3 +34,12 @@ class Repository:
         with self.connect() as db:
             cursor = db.execute("INSERT INTO tasks (title) VALUES (?)", (title,)); return self.convert(db.execute("SELECT * FROM tasks WHERE id = ?", (cursor.lastrowid,)).fetchone())
 
+    def update(self, task_id, changes):
+        with self.connect() as db:
+            old = self.convert(db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone())
+            if not old: return None
+            old.update(changes); db.execute("UPDATE tasks SET title = ?, done = ? WHERE id = ?", (old["title"], old["done"], task_id)); return old
+
+    def delete(self, task_id):
+        with self.connect() as db: return db.execute("DELETE FROM tasks WHERE id = ?", (task_id,)).rowcount > 0
+

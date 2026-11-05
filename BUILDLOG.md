@@ -7,3 +7,6 @@
 
 ## Stage 2
 `python checkpoint.py`: PASS insert 201, invalid 400, repository restart persistence and quoted input
+
+## Stage 3
+`python checkpoint.py`: PASS full CRUD: 200/201/204/400/404
