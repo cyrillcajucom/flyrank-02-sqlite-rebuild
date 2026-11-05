@@ -1,0 +1,49 @@
+W3 SQLite verification - 2026-11-05
+Isolated clean source copy; default tasks.db; actual uvicorn process restarts.
+GET /tasks
+HTTP 200 [{"id":1,"title":"Learn APIs","done":false},{"id":2,"title":"Read a book","done":false},{"id":3,"title":"Take a walk","done":false}]
+Clean start automatically created tasks.db, its tables and three examples.
+POST /tasks {"title": "W3 persistence check"}
+HTTP 201 {"id":4,"title":"W3 persistence check","done":false}
+PUT /tasks/4 {"done": true}
+HTTP 200 {"id":4,"title":"W3 persistence check","done":true}
+GET /tasks/4
+HTTP 200 {"id":4,"title":"W3 persistence check","done":true}
+GET /tasks
+HTTP 200 [{"id":1,"title":"Learn APIs","done":false},{"id":2,"title":"Read a book","done":false},{"id":3,"title":"Take a walk","done":false},{"id":4,"title":"W3 persistence check","done":true}]
+Actual process restart 1: updated row survived and seed rows were not duplicated.
+GET /tasks/4
+HTTP 200 {"id":4,"title":"W3 persistence check","done":true}
+GET /tasks
+HTTP 200 [{"id":1,"title":"Learn APIs","done":false},{"id":2,"title":"Read a book","done":false},{"id":3,"title":"Take a walk","done":false},{"id":4,"title":"W3 persistence check","done":true}]
+Actual process restart 2: updated row survived and seed rows were not duplicated.
+GET /tasks/4
+HTTP 200 {"id":4,"title":"W3 persistence check","done":true}
+GET /tasks
+HTTP 200 [{"id":1,"title":"Learn APIs","done":false},{"id":2,"title":"Read a book","done":false},{"id":3,"title":"Take a walk","done":false},{"id":4,"title":"W3 persistence check","done":true}]
+Actual process restart 3: updated row survived and seed rows were not duplicated.
+DELETE /tasks/4
+HTTP 204 
+GET /tasks/4
+HTTP 404 {"error":"Task 4 not found"}
+PUT /tasks/4 {"done": false}
+HTTP 404 {"error":"Task 4 not found"}
+DELETE /tasks/4
+HTTP 404 {"error":"Task 4 not found"}
+POST /tasks {"title": ""}
+HTTP 400 {"error":"A non-empty title is required"}
+PUT /tasks/1 {"done": "yes"}
+HTTP 400 {"error":"Invalid task update"}
+SELECT * FROM tasks; -> [(1, 'Learn APIs', 0), (2, 'Read a book', 0), (3, 'Take a walk', 0)]
+SELECT * FROM tasks WHERE done = 1; -> []
+SELECT COUNT(*) FROM tasks; -> [(3,)]
+GET /tasks
+HTTP 200 [{"id":1,"title":"Learn APIs","done":true},{"id":2,"title":"Read a book","done":true},{"id":3,"title":"Take a walk","done":true}]
+UPDATE tasks SET done = 1; -> all three API rows changed without restarting the server.
+GET /tasks
+HTTP 200 []
+DELETE FROM tasks WHERE done = 1; -> API immediately returned an empty list.
+GET /tasks
+HTTP 200 []
+An intentionally emptied initialized database remains empty after restart.
+SQL was executed through Python sqlite3, not DB Browser for SQLite. A DB Browser screenshot is still outstanding.

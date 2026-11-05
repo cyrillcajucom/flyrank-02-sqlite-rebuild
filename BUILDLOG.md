@@ -17,3 +17,9 @@
 ## Stage 5
 `python checkpoint.py`: PASS full CRUD: 200/201/204/400/404
 PASS clean database auto-creation and persistence after restart
+
+## Additional validation
+Original endpoint regression tests reused unchanged: `python -m pytest -q`
+...                                                                      [100%]
+3 passed in 1.30s
+

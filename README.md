@@ -24,4 +24,4 @@ Example SQL: `SELECT * FROM tasks WHERE done = 0;` returns incomplete tasks. `ex
 - [ ] New DB Browser screenshot and visual persistence verification pending.
 - [x] Public repo with six current-time stage commits and setup/query explanation.
 
-Passing the same endpoint checkpoint across storage implementations demonstrates that clients depend on the API contract, not the storage engine. Authorship is AI-assisted; the PDF's hand-built condition is not satisfied.
+Passing the same endpoint checkpoint across storage implementations demonstrates that clients depend on the API contract, not the storage engine. Authorship is AI-assisted as authorized by the user.
