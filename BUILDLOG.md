@@ -23,3 +23,6 @@ Original endpoint regression tests reused unchanged: `python -m pytest -q`
 ...                                                                      [100%]
 3 passed in 1.30s
 
+
+## New DB Browser evidence
+User supplied a real screenshot of D:/FlyRank-Rebuilds/flyrank-02-sqlite-rebuild/tasks.db in DB Browser. SELECT * FROM tasks returned four rows including the persistent quoted-title Stage2 row; direct SQL done update is visible. Stored as sqlite-db-browser.png. Earlier pending GUI evidence is now satisfied.

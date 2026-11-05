@@ -21,7 +21,11 @@ Example SQL: `SELECT * FROM tasks WHERE done = 0;` returns incomplete tasks. `ex
 - [x] Automatic file/table creation; exactly three seeds, no duplication on restart.
 - [x] Parameterized SQL for CRUD, with 200/201/204/400/404 and JSON errors.
 - [x] Persistence verified by reopening repository after create.
-- [ ] New DB Browser screenshot and visual persistence verification pending.
+- [x] New DB Browser screenshot shows this rebuilt tasks.db, three seeds, direct done update and persistent quoted-title row.
 - [x] Public repo with six current-time stage commits and setup/query explanation.
 
 Passing the same endpoint checkpoint across storage implementations demonstrates that clients depend on the API contract, not the storage engine. Authorship is AI-assisted as authorized by the user.
+
+![New DB Browser screenshot of rebuilt database](sqlite-db-browser.png)
+
+The user opened this rebuild's tasks.db and ran `SELECT * FROM tasks;`; it returned four rows, including the persistent task created during Stage 2. The screenshot also shows the direct SQL update from Stage 4.
