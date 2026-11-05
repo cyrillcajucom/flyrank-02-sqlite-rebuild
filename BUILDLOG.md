@@ -4,3 +4,6 @@
 
 ## Stage 1
 `python checkpoint.py`: PASS reads from SQLite, missing 404
+
+## Stage 2
+`python checkpoint.py`: PASS insert 201, invalid 400, repository restart persistence and quoted input

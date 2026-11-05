@@ -30,3 +30,7 @@ class Repository:
     def get(self, task_id):
         with self.connect() as db: return self.convert(db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone())
 
+    def create(self, title):
+        with self.connect() as db:
+            cursor = db.execute("INSERT INTO tasks (title) VALUES (?)", (title,)); return self.convert(db.execute("SELECT * FROM tasks WHERE id = ?", (cursor.lastrowid,)).fetchone())
+
