@@ -10,3 +10,6 @@
 
 ## Stage 3
 `python checkpoint.py`: PASS full CRUD: 200/201/204/400/404
+
+## Stage 4
+`python checkpoint.py`: PASS SELECT and SQL UPDATE visible immediately through API; DB Browser screenshot pending
