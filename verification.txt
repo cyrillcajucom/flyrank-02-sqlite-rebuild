@@ -47,3 +47,142 @@ GET /tasks
 HTTP 200 []
 An intentionally emptied initialized database remains empty after restart.
 SQL was executed through Python sqlite3, not DB Browser for SQLite. A DB Browser screenshot is still outstanding.
+
+ACTUAL CURL -i CHECKPOINTS
+curl.exe -sS -i -X POST http://localhost:8102/tasks -H Content-Type: application/json -d {"title": "Postgres ' parameter test"}
+
+HTTP/1.1 201 Created
+date: Thu, 05 Nov 2026 08:19:19 GMT
+server: uvicorn
+content-length: 57
+content-type: application/json
+
+{"id":8,"title":"Postgres ' parameter test","done":false}
+
+curl.exe -sS -i -X GET http://localhost:8102/tasks
+
+HTTP/1.1 200 OK
+date: Thu, 05 Nov 2026 08:19:19 GMT
+server: uvicorn
+content-length: 241
+content-type: application/json
+
+[{"id":1,"title":"Learn APIs","done":true},{"id":2,"title":"Read a book","done":false},{"id":3,"title":"Take a walk","done":false},{"id":4,"title":"Persistent ' quoted","done":false},{"id":8,"title":"Postgres ' parameter test","done":false}]
+
+curl.exe -sS -i -X GET http://localhost:8102/tasks/8
+
+HTTP/1.1 200 OK
+date: Thu, 05 Nov 2026 08:19:19 GMT
+server: uvicorn
+content-length: 57
+content-type: application/json
+
+{"id":8,"title":"Postgres ' parameter test","done":false}
+
+curl.exe -sS -i -X PUT http://localhost:8102/tasks/8 -H Content-Type: application/json -d {"done": true}
+
+HTTP/1.1 200 OK
+date: Thu, 05 Nov 2026 08:19:20 GMT
+server: uvicorn
+content-length: 56
+content-type: application/json
+
+{"id":8,"title":"Postgres ' parameter test","done":true}
+
+curl.exe -sS -i -X DELETE http://localhost:8102/tasks/8
+
+HTTP/1.1 204 No Content
+date: Thu, 05 Nov 2026 08:19:20 GMT
+server: uvicorn
+
+
+
+curl.exe -sS -i -X GET http://localhost:8102/tasks/8
+
+HTTP/1.1 404 Not Found
+date: Thu, 05 Nov 2026 08:19:20 GMT
+server: uvicorn
+content-length: 28
+content-type: application/json
+
+{"error":"Task 8 not found"}
+
+curl.exe -sS -i -X PUT http://localhost:8102/tasks/8 -H Content-Type: application/json -d {"done": false}
+
+HTTP/1.1 404 Not Found
+date: Thu, 05 Nov 2026 08:19:20 GMT
+server: uvicorn
+content-length: 28
+content-type: application/json
+
+{"error":"Task 8 not found"}
+
+curl.exe -sS -i -X DELETE http://localhost:8102/tasks/8
+
+HTTP/1.1 404 Not Found
+date: Thu, 05 Nov 2026 08:19:21 GMT
+server: uvicorn
+content-length: 28
+content-type: application/json
+
+{"error":"Task 8 not found"}
+
+curl.exe -sS -i -X POST http://localhost:8102/tasks -H Content-Type: application/json -d {}
+
+HTTP/1.1 400 Bad Request
+date: Thu, 05 Nov 2026 08:19:21 GMT
+server: uvicorn
+content-length: 41
+content-type: application/json
+
+{"error":"A non-empty title is required"}
+
+curl.exe -sS -i -X POST http://localhost:8102/tasks -H Content-Type: application/json -d {"title": ""}
+
+HTTP/1.1 400 Bad Request
+date: Thu, 05 Nov 2026 08:19:21 GMT
+server: uvicorn
+content-length: 41
+content-type: application/json
+
+{"error":"A non-empty title is required"}
+
+curl.exe -sS -i -X POST http://localhost:8102/tasks -H Content-Type: application/json -d {"title": 7}
+
+HTTP/1.1 400 Bad Request
+date: Thu, 05 Nov 2026 08:19:21 GMT
+server: uvicorn
+content-length: 41
+content-type: application/json
+
+{"error":"A non-empty title is required"}
+
+curl.exe -sS -i -X POST http://localhost:8102/tasks -H Content-Type: application/json -d {"title": "ok", "done": "bad"}
+
+HTTP/1.1 400 Bad Request
+date: Thu, 05 Nov 2026 08:19:21 GMT
+server: uvicorn
+content-length: 41
+content-type: application/json
+
+{"error":"A non-empty title is required"}
+
+curl.exe -sS -i -X PUT http://localhost:8102/tasks/1 -H Content-Type: application/json -d {"title": ""}
+
+HTTP/1.1 400 Bad Request
+date: Thu, 05 Nov 2026 08:19:22 GMT
+server: uvicorn
+content-length: 31
+content-type: application/json
+
+{"error":"Invalid task update"}
+
+curl.exe -sS -i -X PUT http://localhost:8102/tasks/1 -H Content-Type: application/json -d {"done": "wrong"}
+
+HTTP/1.1 400 Bad Request
+date: Thu, 05 Nov 2026 08:19:22 GMT
+server: uvicorn
+content-length: 31
+content-type: application/json
+
+{"error":"Invalid task update"}

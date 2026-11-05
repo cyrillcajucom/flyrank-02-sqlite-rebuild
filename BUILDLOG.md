@@ -26,3 +26,5 @@ Original endpoint regression tests reused unchanged: `python -m pytest -q`
 
 ## New DB Browser evidence
 User supplied a real screenshot of D:/FlyRank-Rebuilds/flyrank-02-sqlite-rebuild/tasks.db in DB Browser. SELECT * FROM tasks returned four rows including the persistent quoted-title Stage2 row; direct SQL done update is visible. Stored as sqlite-db-browser.png. Earlier pending GUI evidence is now satisfied.
+
+Additional real curl.exe -i validation: full SQLite CRUD, quoted title, invalid titles/bools/bodies, all missing IDs; 200/201/204/400/404 verified with JSON errors. Existing restart and GUI evidence retained.
