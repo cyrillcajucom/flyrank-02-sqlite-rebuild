@@ -24,3 +24,9 @@ class Repository:
 
     def convert(self, row): return {"id": row["id"], "title": row["title"], "done": bool(row["done"])} if row else None
 
+    def list(self):
+        with self.connect() as db: return [self.convert(r) for r in db.execute("SELECT * FROM tasks ORDER BY id")]
+
+    def get(self, task_id):
+        with self.connect() as db: return self.convert(db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone())
+
